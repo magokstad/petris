@@ -40,34 +40,56 @@ class BlockData {
         }
 };
 
-const BlockInfo BlockData::t_block = BlockInfo(2, 3, new int[6]{
+int t_block_array[] = {
+    0, 0, 0,
     1, 1, 1,
     0, 1, 0
-});
-const BlockInfo BlockData::l_block = BlockInfo(3, 2, new int[6]{
-    1, 0,
-    1, 0,
-    1, 1
-});
-const BlockInfo BlockData::j_block = BlockInfo(3, 2, new int[6]{
-    0, 1,
-    0, 1,
-    1, 1
-});
-const BlockInfo BlockData::o_block = BlockInfo(2, 2, new int[4]{
-    1, 1,
-    1, 1
-});
-const BlockInfo BlockData::i_block = BlockInfo(2, 4, new int[8]{
-    1, 1, 1, 1,
+};
+
+int l_block_array[] = {
+    0, 1, 0,
+    0, 1, 0,
+    0, 1, 1
+};
+
+int j_block_array[] = {
+    0, 1, 0,
+    0, 1, 0,
+    1, 1, 0
+};
+
+int o_block_Array[] = {
+    0, 0, 0, 0,
+    0, 1, 1, 0,
+    0, 1, 1, 0,
     0, 0, 0, 0
-});
-const BlockInfo BlockData::s_block = BlockInfo(2, 3, new int[6]{
+};
+
+int i_block_array[] = {
+    0, 0, 1, 0,
+    0, 0, 1, 0,
+    0, 0, 1, 0,
+    0, 0, 1, 0
+};
+
+int s_block_array[] = {
+    0, 0, 0,
     0, 1, 1,
     1, 1, 0
-});
-const BlockInfo BlockData::z_block = BlockInfo(2, 3, new int[6]{
+};
+
+int z_block_array[] = {
+    0, 0, 0,
     1, 1, 0,
     0, 1, 1
-});
+};
+
+
+const BlockInfo BlockData::t_block = BlockInfo(3, 3, t_block_array);
+const BlockInfo BlockData::l_block = BlockInfo(3, 3, l_block_array);
+const BlockInfo BlockData::j_block = BlockInfo(3, 3, j_block_array);
+const BlockInfo BlockData::o_block = BlockInfo(4, 4, o_block_Array);
+const BlockInfo BlockData::i_block = BlockInfo(4, 4, i_block_array);
+const BlockInfo BlockData::s_block = BlockInfo(3, 3, s_block_array);
+const BlockInfo BlockData::z_block = BlockInfo(3, 3, z_block_array);
 

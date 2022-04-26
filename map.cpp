@@ -3,11 +3,14 @@
 class MapArr {
     private:
         int *array;
-        int length = 20;
-        int width = 10;
-        int size = length * width;
+        int length;
+        int width;
+        int size;
     public:
         MapArr() {
+            this->length = 20;
+            this->width = 10;
+            this->size = this->length * this->width;
             array = new int[size];
             for (int i = 0; i < size; i++) {
                 array[i] = 0;
@@ -30,8 +33,8 @@ class MapArr {
             return array[i * width + j];
         }
 
-        void set(int i, int j, int value) {
-            array[i * width + j] = value;
+        void set(int i, int j) {
+            this->array[i * width + j] = 1;
         }
 
         int* getArray() {
@@ -59,16 +62,16 @@ class Map {
             }
         }
 
-        MapArr getMapArr() {
-            return mapArr;
+        MapArr * getMapArr() {
+            return &mapArr;
         }
 
         int get(int i, int j) {
             return mapArr.get(i, j);
         }
 
-        void set(int i, int j, int value) {
-            mapArr.set(i, j, value);
+        void set(int i, int j) {
+            mapArr.set(i, j);
         }
 
 
