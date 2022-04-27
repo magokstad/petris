@@ -172,7 +172,6 @@ class TetraHandler {
                     rotate_right();
                     return true;
                 }
-
             }
             x--;
             return false;

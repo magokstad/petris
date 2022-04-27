@@ -74,5 +74,87 @@ class Map {
             mapArr.set(i, j);
         }
 
+        // places a block at the given position and checks for cleared rows
+        void place_tetra(Tetragon *tetra, int x, int y) {
+            BlockArr *block = tetra->get_block();
+            int length = block->getLength();
+            int width = block->getWidth();
+            for (int l = 0; l < length; l++) {
+                for (int w = 0; w < width; w++) {
+                    if (block->get(l, w) == 1) {
+                        mapArr.set(y + l, x + w);
+                    }
+                }
+            }
+            clear_rows_if_filled();
+        }
+
+    private:
+
+        // Checks if the row is filled.
+        bool check_row_filled(int l) {
+            int *array = mapArr.getArray();
+            int width = mapArr.getWidth();
+            for (int i = 0; i < width; i++) {
+                if (array[l * width + i] == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Clears the row
+        void clear_row(int l) {
+            int *array = mapArr.getArray();
+            int width = mapArr.getWidth();
+            for (int i = 0; i < width; i++) {
+                array[l * width + i] = -1;
+            }
+        }
+
+        // Moves the resulting rows down after clearing rows 
+        void move_resulting_down() {
+            int *array = mapArr.getArray();
+            int length = mapArr.getLength();
+            int width = mapArr.getWidth();
+
+            // Inital check
+            for (int l = length-1; l >= 0; l--) {
+                if (array[l * width ] == -1) {
+                    while (array[l * width] == -1 && l >= 0) {
+                        for (int i = 0; i < width; i++) {
+                            array[l * width + i] = array[(l - 1) * width + i];
+                            array[(l - 1) * width + i] = -1;
+                        }
+                        l--;
+                    }
+                }
+            }
+            // Double check
+            for (int l = 0; l < length; l++) {
+                if (array[l * width ] == -1) {
+                    for (int w = 0; w < width; w++) {
+                        array[l * width + w] = 0;
+                    }
+                }
+            }
+        }
+
+        // Clears a row if it is filled
+        void clear_row_if_filled(int l) {
+            if (check_row_filled(l)) {
+                clear_row(l);
+            }
+        }
+
+        // Clears all rows if they are filled
+        void clear_rows_if_filled() {
+            int length = mapArr.getLength();
+            for (int i = 0; i < length; i++) {
+                clear_row_if_filled(i);
+            }
+            move_resulting_down();
+        }
+
 
 };

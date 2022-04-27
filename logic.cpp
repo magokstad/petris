@@ -33,6 +33,11 @@ class GameState {
             map.set(x, y);
         }
 
+        void place_tetra() {
+            map.place_tetra(hand.get_tetra(), hand.get_x(), hand.get_y());
+            hand.change_tetra('l'); //FIXME
+        }
+
         char get_input() {
             return input.get_input();
         }
@@ -54,6 +59,9 @@ class GameState {
                     break;
                 case 'o':
                     return 1;
+                case ' ':
+                    place_tetra();
+                    break;
                 default:
                     break;
             }
