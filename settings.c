@@ -2,9 +2,6 @@
 #define START_X 3
 #define START_Y 0
 
-
-
-
 // Own colors
 #define COLOR_ORANGE 20
 

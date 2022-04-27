@@ -30,8 +30,8 @@ class Screen {
             init_pair(BGC_PAIR, COLOR_WHITE, COLOR_BLACK); // FIXME should be in a settings file
             init_pair(BASIC_TETRA_PAIR, COLOR_WHITE, COLOR_WHITE); // FIXME should be in a settings file
             init_pair(TBLOCK_PAIR, COLOR_MAGENTA, COLOR_MAGENTA);
-            init_pair(LBLOCK_PAIR, COLOR_BLUE, COLOR_BLUE);
-            init_pair(JBLOCK_PAIR, COLOR_ORANGE, COLOR_ORANGE); // FIXME should be orange
+            init_pair(LBLOCK_PAIR, COLOR_ORANGE, COLOR_ORANGE);
+            init_pair(JBLOCK_PAIR, COLOR_BLUE, COLOR_BLUE); // FIXME should be orange
             init_pair(OBLOCK_PAIR, COLOR_YELLOW, COLOR_YELLOW);
             init_pair(IBLOCK_PAIR, COLOR_CYAN, COLOR_CYAN);
             init_pair(SBLOCK_PAIR, COLOR_GREEN, COLOR_GREEN);
@@ -47,7 +47,7 @@ class Screen {
         int sgetch() {return getch();}
 
         int update_screen() {
-            sclear();
+            //sclear();
             wprint_map();
             wprint_current_block();
             get_tetra_state();

@@ -15,7 +15,9 @@ class GameState {
             map = Map();
             hand = TetraHandler(map);
             input = NcursesInputHandler();
-            //add_block('s'); //FIXME
+            tetralist = "";
+            update_tetralist();
+            add_block(get_random_tetra_char());
         }
 
         Map * getMap() {
@@ -35,9 +37,24 @@ class GameState {
         }
 
         char get_random_tetra_char() {
+            update_tetralist();
+            char ans = tetralist[0];
+            tetralist.erase(0,1);
+            return ans;
+        }
+
+        void update_tetralist() {
             std::string tetras = "szljoti";
-            int random_index = rand() % tetras.length();
-            return tetras[random_index];
+            if (tetralist.length() <= tetras.length()) {
+                std::string blocks = "szljoti";
+                for (int i = 0; i < blocks.length(); i++) {
+                    int j = rand() % blocks.length();
+                    char tmp = blocks[i];
+                    blocks[i] = blocks[j];
+                    blocks[j] = tmp;
+                }
+                tetralist += blocks;
+            }
         }
 
         void place_tetra() {

@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
     srand(time(NULL));
     
     Screen screen = Screen();
-    screen.get_game_state()->add_block('l'); // FIXME should be random
+    //screen.get_game_state()->add_block('l'); // FIXME should be random
     //screen.get_game_state()->set_a_cube(4,4);
     screen.update_screen();
     
