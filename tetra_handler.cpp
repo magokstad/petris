@@ -109,7 +109,7 @@ class TetraHandler {
         }
 
 
-        bool can_rotate_right(Tetragon *t) {
+        bool can_rotate_right(bool use_wall_kicks = false) {
             //BlockArr *block = tetra.get_block(); 
             BlockArr rotablock = tetra.get_copy_of_block();
             rotablock.rotate_right();
@@ -126,20 +126,20 @@ class TetraHandler {
             int left_most_x = x + rotablock.get_leftest();
 
             if (right_most_x > map_max_x) {
-                wall_kick_right();
+                if (use_wall_kicks) {wall_kick_right();}
                 return false;
             }
             if (bottom_most_y > map_max_y) {
                 return false;
             }
             if (left_most_x < 0) {
-                wall_kick_left();
+            if (use_wall_kicks) {wall_kick_left();}
                 return false;
             }
             for (int i = 0; i < length; i++) {
                 for (int j = 0; j < width; j++) {
                     if (rotablock.get(i, j) == 1 && map.get(y + i, x + j) == 1) {
-                        if (!wall_kick_right()) {
+                        if (use_wall_kicks && !wall_kick_right()) {
                             wall_kick_left();
                         }
                         return false;
@@ -149,10 +149,6 @@ class TetraHandler {
             return true;
         }
 
-        bool can_rotate_right() {
-            return can_rotate_right(&this->tetra);
-        }
-
         bool wall_kick_right() {
             if (can_move_left()) {
                 x--;
@@ -160,8 +156,8 @@ class TetraHandler {
                     rotate_right();
                     return true;
                 }
+                x++;
             }
-            x++;    
             return false;
         }
 
@@ -172,13 +168,13 @@ class TetraHandler {
                     rotate_right();
                     return true;
                 }
+                x--;
             }
-            x--;
             return false;
         }
 
         void rotate_right() {
-            if (can_rotate_right()) {
+            if (can_rotate_right(true)) {
                 tetra.get_block()->rotate_right();
             }
         }

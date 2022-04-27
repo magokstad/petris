@@ -13,6 +13,10 @@ class Screen {
             cbreak();
             keypad(stdscr, TRUE);
             curs_set(0);
+
+            start_color();
+            init_pair(BGC_PAIR, COLOR_WHITE, COLOR_BLACK); // FIXME should be in a settings file
+            init_pair(BASIC_TETRA_PAIR, COLOR_BLUE, COLOR_BLUE); // FIXME should be in a settings file
         }
 
         ~Screen() {
@@ -37,6 +41,7 @@ class Screen {
             int leftest = game_state.getTetraHandler()->get_tetra()->get_block()->get_leftest();
             int rightest = game_state.getTetraHandler()->get_tetra()->get_block()->get_rightest();
             int lowest = game_state.getTetraHandler()->get_tetra()->get_block()->get_lowest();
+            color_off();
             mvprintw(23,0, "x: %d, y: %d", x, y);
             mvprintw(24,0, "leftest: %d, rightest: %d, lowest: %d", leftest, rightest, lowest);
         }
@@ -45,6 +50,7 @@ class Screen {
             return &game_state;
         }
 
+    // FIXME too many chars in this section are hardcoded. Make macro in settings.c
     private:
         char * convert_map_to_string() {
             int *array = game_state.getMap()->getMapArr()->getArray();
@@ -69,6 +75,18 @@ class Screen {
             }
         }
 
+        void color_char(char c) {
+            if (c == '#') {attron(COLOR_PAIR(BASIC_TETRA_PAIR));}
+            else if (c == '.') {attron(COLOR_PAIR(BGC_PAIR));}
+            else {attron(COLOR_PAIR(BGC_PAIR));}
+        }
+
+        void color_off() {
+            attroff(COLOR_PAIR(BASIC_TETRA_PAIR));
+            attroff(COLOR_PAIR(BGC_PAIR));
+            attroff(COLOR_PAIR(BGC_PAIR));
+        }
+
         void wprint_current_block() {
             int x = game_state.getTetraHandler()->get_x();
             int y = game_state.getTetraHandler()->get_y();
@@ -82,6 +100,7 @@ class Screen {
                 for (int j = 0; j < width; j++) {
                     if (block->get(i, j) == 1) {
                         char c = translate_input(block->get(i, j));
+                        color_char(c);
                         mvprintw(y + i, (x + j)*2, "%c", c);
                         mvprintw(y + i, (x + j)*2 +1, "%c", c);
                     }
@@ -98,6 +117,7 @@ class Screen {
                 char c = translate_input(array[i]);
                 // OG: mvprintw(i / width, i % width, "%c", c);
                 // This doubles the number of characters printed so it looks more like a grid
+                color_char(c);
                 mvprintw(i / width, (i % width) * 2, "%c", c);
                 mvprintw(i / width, (i % width) * 2 +1, "%c", c);
                 

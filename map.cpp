@@ -112,7 +112,8 @@ class Map {
             }
         }
 
-        // Moves the resulting rows down after clearing rows 
+        // Moves the resulting rows down after clearing rows
+        // TODO this isnt working correctly. Think of a solution
         void move_resulting_down() {
             int *array = mapArr.getArray();
             int length = mapArr.getLength();
@@ -121,12 +122,15 @@ class Map {
             // Inital check
             for (int l = length-1; l >= 0; l--) {
                 if (array[l * width ] == -1) {
-                    while (array[l * width] == -1 && l >= 0) {
-                        for (int i = 0; i < width; i++) {
-                            array[l * width + i] = array[(l - 1) * width + i];
-                            array[(l - 1) * width + i] = -1;
-                        }
-                        l--;
+                    int line_to_move = l;
+                    int count_l = l;
+                    while (array[count_l * width] == -1) {
+                        count_l--;
+                    }
+                    if (count_l < 0) {break;}
+                    for (int w = 0; w < width; w++) {
+                        array[line_to_move * width + w] = array[count_l * width + w];
+                        array[count_l * width + w] = -1;
                     }
                 }
             }

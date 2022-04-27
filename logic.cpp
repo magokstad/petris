@@ -35,7 +35,7 @@ class GameState {
 
         void place_tetra() {
             map.place_tetra(hand.get_tetra(), hand.get_x(), hand.get_y());
-            hand.change_tetra('l'); //FIXME
+            hand.change_tetra('i'); //FIXME
         }
 
         char get_input() {
