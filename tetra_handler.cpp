@@ -57,7 +57,7 @@ class TetraHandler {
             bool ans = true;
             for (int l = 0; l < length; l++) {
                 for (int w = 0; w < width; w++) {
-                    if (block->get(l, w) == 1 && map.get(y + l, x + w) == 1) {
+                    if (block->get(l, w) >= 1 && map.get(y + l, x + w) >= 1) {
                         ans = false;
                     }
                 }
@@ -78,7 +78,7 @@ class TetraHandler {
             bool ans = true;
             for (int l = 0; l < length; l++) {
                 for (int w = 0; w < width; w++) {
-                    if (block->get(l, w) == 1 && map.get(y+l, x+w) == 1) {
+                    if (block->get(l, w) >= 1 && map.get(y+l, x+w) >= 1) {
                         ans = false;
                     }
                 }
@@ -99,7 +99,7 @@ class TetraHandler {
             bool ans = true;
             for (int l = 0; l < length; l++) {
                 for (int w = 0; w < width; w++) {
-                    if (block->get(l, w) == 1 && map.get(y+l, x+w) == 1) {
+                    if (block->get(l, w) >= 1 && map.get(y+l, x+w) >= 1) {
                         ans = false;
                     }
                 }
@@ -138,7 +138,7 @@ class TetraHandler {
             }
             for (int i = 0; i < length; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (rotablock.get(i, j) == 1 && map.get(y + i, x + j) == 1) {
+                    if (rotablock.get(i, j) >= 1 && map.get(y + i, x + j) >= 1) {
                         if (use_wall_kicks && !wall_kick_right()) {
                             wall_kick_left();
                         }

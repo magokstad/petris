@@ -1,5 +1,6 @@
 #include <iostream>
 #include "block_data.cpp"
+#include "settings.c"
 
 class BlockArr {
     private:
@@ -147,11 +148,37 @@ class Tetragon {
             return block_type;
         }
 
+        int get_val() {
+            return char_to_val(block_type);
+        }
+
         BlockArr* get_block() {
             return &block_arr;
         }
 
         BlockArr get_copy_of_block() {
             return block_arr;
+        }
+
+    private:
+        int char_to_val(char c) {
+            switch (c) {
+                case 'i':
+                    return BINT_I;
+                case 'j':
+                    return BINT_J;
+                case 'l':
+                    return BINT_L;
+                case 'o':
+                    return BINT_O;
+                case 's':
+                    return BINT_S;
+                case 't':
+                    return BINT_T;
+                case 'z':
+                    return BINT_Z;
+                default:
+                    return B_NULL;
+            }
         }
 };

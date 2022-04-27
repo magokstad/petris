@@ -8,6 +8,7 @@ class GameState {
         Map map;
         TetraHandler hand;
         NcursesInputHandler input;
+        std::string tetralist;
 
     public:
         GameState() {
@@ -29,13 +30,23 @@ class GameState {
             hand.change_tetra(tetrac);
         }
 
-        void set_a_cube(int x, int y) {
-            map.set(x, y);
+        void set_a_cube(int x, int y, int value) {
+            map.set(x, y,value);
+        }
+
+        char get_random_tetra_char() {
+            std::string tetras = "szljoti";
+            int random_index = rand() % tetras.length();
+            return tetras[random_index];
         }
 
         void place_tetra() {
+            while (hand.can_move_down()) {
+                hand.move_down();
+            }
             map.place_tetra(hand.get_tetra(), hand.get_x(), hand.get_y());
-            hand.change_tetra('i'); //FIXME
+            char ny_tetra = get_random_tetra_char();
+            hand.change_tetra(ny_tetra); //FIXME
         }
 
         char get_input() {

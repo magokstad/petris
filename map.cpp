@@ -33,8 +33,8 @@ class MapArr {
             return array[i * width + j];
         }
 
-        void set(int i, int j) {
-            this->array[i * width + j] = 1;
+        void set(int i, int j, int value) {
+            this->array[i * width + j] = value;
         }
 
         int* getArray() {
@@ -70,8 +70,8 @@ class Map {
             return mapArr.get(i, j);
         }
 
-        void set(int i, int j) {
-            mapArr.set(i, j);
+        void set(int i, int j, int value) {
+            mapArr.set(i, j, value);
         }
 
         // places a block at the given position and checks for cleared rows
@@ -81,8 +81,8 @@ class Map {
             int width = block->getWidth();
             for (int l = 0; l < length; l++) {
                 for (int w = 0; w < width; w++) {
-                    if (block->get(l, w) == 1) {
-                        mapArr.set(y + l, x + w);
+                    if (block->get(l, w) >= 1) {
+                        mapArr.set(y + l, x + w, tetra->get_val());
                     }
                 }
             }
