@@ -10,11 +10,22 @@ class GameState {
         NcursesInputHandler input;
         std::string tetralist;
 
+        long msec;
+        long msec_counter;
+
+        
+
     public:
         GameState() {
             map = Map();
             hand = TetraHandler(map);
             input = NcursesInputHandler();
+
+            // get time at start
+            timeval start_time;
+            gettimeofday(&start_time, NULL);
+            msec = start_time.tv_sec * 1000 + start_time.tv_usec / 1000;
+
             tetralist = "";
             update_tetralist();
             add_block(get_random_tetra_char());
@@ -26,6 +37,31 @@ class GameState {
 
         TetraHandler *getTetraHandler() {
             return &hand;
+        }
+
+        // Theres logic in screen.... FIXME
+        long get_time_dif() {
+            timeval end_time;
+            gettimeofday(&end_time, NULL);
+            long end_msec = end_time.tv_sec * 1000 + end_time.tv_usec / 1000;
+            long dif = end_msec - msec;
+            msec_counter = end_msec;
+            return dif;
+        }
+
+        int drop_loop() {
+            if (get_time_dif() > 500) {
+                if (hand.can_move_down()) {
+                    hand.move_down();
+                }
+                else {
+                    place_tetra();
+                }
+                msec = msec_counter;
+            }
+            // This handles input and returns 1 if game is over
+            if (handle_input() == 1) {return 1;};
+            return 0;
         }
 
         void add_block(char tetrac) {

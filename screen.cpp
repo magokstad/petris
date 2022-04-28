@@ -6,8 +6,6 @@
 class Screen {
     private:
         GameState game_state;
-        long msec;
-        long msec_counter;
     public:
         Screen() {
             game_state = GameState();
@@ -17,11 +15,6 @@ class Screen {
             cbreak();
             keypad(stdscr, TRUE);
             curs_set(0);
-
-            // get time at start
-            timeval start_time;
-            gettimeofday(&start_time, NULL);
-            msec = start_time.tv_sec * 1000 + start_time.tv_usec / 1000;
 
             start_color();
 
@@ -46,30 +39,16 @@ class Screen {
         void srefresh() {refresh();}
         int sgetch() {return getch();}
 
+        // THIS IS LOGIC, SHOULD BE IN GAMESTATE!!! FIXME
         int update_screen() {
             //sclear();
             wprint_map();
             wprint_current_block();
             get_tetra_state();
             srefresh();
-            // wait 500ms
-            if (get_time_dif() > 500) {
-                game_state.getTetraHandler()->move_down();
-                msec = msec_counter;
-
-
-            }
-            if (game_state.handle_input() == 1) {return 1;};
-            return 0;
-        }
-
-        long get_time_dif() {
-            timeval end_time;
-            gettimeofday(&end_time, NULL);
-            long end_msec = end_time.tv_sec * 1000 + end_time.tv_usec / 1000;
-            long dif = end_msec - msec;
-            msec_counter = end_msec;
-            return dif;
+            
+            // wait 500ms and return 1 if game is over
+            return game_state.drop_loop();
         }
 
         void get_tetra_state() {
@@ -81,6 +60,7 @@ class Screen {
             color_int(WSPACE);
             mvprintw(23,0, "x: %d, y: %d", x, y);
             mvprintw(24,0, "leftest: %d, rightest: %d, lowest: %d", leftest, rightest, lowest);
+            mvprintw(25,0, "Lines cleared: %d", TempScore::get_score());
         }
 
         GameState *get_game_state() {

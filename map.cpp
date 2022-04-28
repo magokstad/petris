@@ -1,4 +1,5 @@
 #include <iostream>
+#include "temp_score.cpp"
 
 class MapArr {
     private:
@@ -148,6 +149,7 @@ class Map {
         void clear_row_if_filled(int l) {
             if (check_row_filled(l)) {
                 clear_row(l);
+                TempScore::increment_score();
             }
         }
 
