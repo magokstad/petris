@@ -2,7 +2,7 @@
 #define START_X 3
 #define START_Y 0
 
-// Own colors
+// Own color IDs
 #define COLOR_ORANGE 20
 
 // Values for each block including null and whitespace
