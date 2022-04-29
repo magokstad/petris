@@ -1,5 +1,5 @@
 #include <iostream>
-#include "blocks.cpp"
+//#include "blocks.cpp"
 #include "temp_score.cpp"
 
 class MapArr {

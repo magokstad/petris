@@ -13,8 +13,6 @@ class GameState {
         long msec;
         long msec_counter;
 
-        
-
     public:
         GameState() {
             map = Map();
@@ -58,6 +56,7 @@ class GameState {
                     place_tetra();
                 }
                 msec = msec_counter;
+                hand.update_ghost_coords();
             }
             // This handles input and returns 1 if game is over
             if (handle_input() == 1) {return 1;};
@@ -107,6 +106,7 @@ class GameState {
         }
 
         int handle_input() {
+            bool update_ghost = true;
             char c = get_input();
             switch (c) {
                 case 'a':
@@ -127,7 +127,11 @@ class GameState {
                     place_tetra();
                     break;
                 default:
+                    update_ghost = false;
                     break;
+            }
+            if (update_ghost) {
+                hand.update_ghost_coords();
             }
             return 0;
         }

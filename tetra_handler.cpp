@@ -6,11 +6,11 @@
 
 // This class most certainly contains codesmell... FIXME
 class TetraHandler {
-    private:
+    protected:
         Map map;
         Tetragon tetra;
         int x;
-        int y;
+        int y, gy;
 
         Tetragon last_rotatable_state;
 
@@ -27,6 +27,21 @@ class TetraHandler {
             this->map = Map();
             this->x = START_X;
             this->y = START_Y;
+        }
+
+        void update_ghost_coords() {
+            int save = this->y;
+            while (can_move_down()) {
+                move_down();
+            }
+            int bottom = this->y;
+            this->y = save;
+            this->gy = bottom;
+            
+        }
+
+        int get_gy() {
+            return this->gy;
         }
 
         void update_rotatable_state() {
@@ -95,7 +110,7 @@ class TetraHandler {
             if ((y+1) + block->get_lowest() > max_map_y-1) {
                 return false;
             }
-            y++;
+            this->y++;
             bool ans = true;
             for (int l = 0; l < length; l++) {
                 for (int w = 0; w < width; w++) {
@@ -104,7 +119,7 @@ class TetraHandler {
                     }
                 }
             }
-            y--;
+            this->y--;
             return ans;
         }
 

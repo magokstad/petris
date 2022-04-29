@@ -43,6 +43,7 @@ class Screen {
         int update_screen() {
             //sclear();
             wprint_map();
+            //wprint_ghost_block();
             wprint_current_block();
             get_tetra_state();
             srefresh();
@@ -54,11 +55,12 @@ class Screen {
         void get_tetra_state() {
             int x = game_state.getTetraHandler()->get_x();
             int y = game_state.getTetraHandler()->get_y();
+            int gy = game_state.getTetraHandler()->get_gy();
             int leftest = game_state.getTetraHandler()->get_tetra()->get_block()->get_leftest();
             int rightest = game_state.getTetraHandler()->get_tetra()->get_block()->get_rightest();
             int lowest = game_state.getTetraHandler()->get_tetra()->get_block()->get_lowest();
             color_int(WSPACE);
-            mvprintw(23,0, "x: %d, y: %d", x, y);
+            mvprintw(23,0, "x: %d, y: %d, gx: %d", x, y, gy);
             mvprintw(24,0, "leftest: %d, rightest: %d, lowest: %d", leftest, rightest, lowest);
             mvprintw(25,0, "Lines cleared: %d", TempScore::get_score());
         }
@@ -93,15 +95,36 @@ class Screen {
         }
 
         void color_int(int val) {
-            if      (val == WSPACE) {attron(COLOR_PAIR(BGC_PAIR));}
-            else if (val == BINT_T) {attron(COLOR_PAIR(TBLOCK_PAIR));}
-            else if (val == BINT_L) {attron(COLOR_PAIR(LBLOCK_PAIR));}
-            else if (val == BINT_J) {attron(COLOR_PAIR(JBLOCK_PAIR));}
-            else if (val == BINT_I) {attron(COLOR_PAIR(IBLOCK_PAIR));}
-            else if (val == BINT_O) {attron(COLOR_PAIR(OBLOCK_PAIR));}
-            else if (val == BINT_S) {attron(COLOR_PAIR(SBLOCK_PAIR));}
-            else if (val == BINT_Z) {attron(COLOR_PAIR(ZBLOCK_PAIR));}
-            else                    {attron(COLOR_PAIR(BASIC_TETRA_PAIR));}
+            int color_pair = 0;
+            switch (val) {
+                case WSPACE:
+                    color_pair = BGC_PAIR;
+                    break;
+                case BINT_T:
+                    color_pair = TBLOCK_PAIR;
+                    break;
+                case BINT_L:
+                    color_pair = LBLOCK_PAIR;
+                    break;
+                case BINT_J:
+                    color_pair = JBLOCK_PAIR;
+                    break;
+                case BINT_I:
+                    color_pair = IBLOCK_PAIR;
+                    break;
+                case BINT_O:
+                    color_pair = OBLOCK_PAIR;
+                    break;
+                case BINT_S:
+                    color_pair = SBLOCK_PAIR;
+                    break;
+                case BINT_Z:
+                    color_pair = ZBLOCK_PAIR;
+                    break;
+                default:
+                    color_pair = BASIC_TETRA_PAIR;
+            }
+            attron(COLOR_PAIR(color_pair));
         }
 
         void color_off() {
@@ -132,6 +155,29 @@ class Screen {
                 }
             }
 
+        }
+
+        // Too repetitive fix
+        void wprint_ghost_block() {
+            int x = game_state.getTetraHandler()->get_gy();
+            int y = game_state.getTetraHandler()->get_y();
+            Tetragon *tetra = game_state.getTetraHandler()->get_tetra();
+
+            BlockArr *block = tetra->get_block();
+            int length = block->getLength();
+            int width = block->getWidth();
+
+            for (int i = 0; i < length; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (block->get(i, j) >= 1) {
+                        int val = BGHOST; 
+                        char c = translate_input(val);
+                        color_int(val);
+                        mvprintw(y + i, (x + j)*2, "%c", c);
+                        mvprintw(y + i, (x + j)*2 +1, "%c", c);
+                    }
+                }
+            }
         }
 
         void wprint_map() {

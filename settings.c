@@ -6,6 +6,7 @@
 #define COLOR_ORANGE 20
 
 // Values for each block including null and whitespace
+#define BGHOST -2
 #define B_NULL -1
 #define WSPACE 0
 #define BINT_T 1
