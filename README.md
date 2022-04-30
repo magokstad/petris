@@ -6,7 +6,7 @@ Example:
 ```
 g++ main.cpp -lncurses -O3 -o main
 ```
-
+---
 **TODO:** 
 - [x] hold (press e!)
 - [ ] next 3 tetri
