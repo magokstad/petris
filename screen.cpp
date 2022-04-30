@@ -19,6 +19,7 @@ class Screen {
             start_color();
 
             init_color(COLOR_ORANGE, 1000, 500, 0);
+            init_color(COLOR_DGRAY, 200, 200, 200);
 
             init_pair(BGC_PAIR, COLOR_WHITE, COLOR_BLACK); // FIXME should be in a settings file
             init_pair(BASIC_TETRA_PAIR, COLOR_WHITE, COLOR_WHITE); // FIXME should be in a settings file
@@ -39,11 +40,10 @@ class Screen {
         void srefresh() {refresh();}
         int sgetch() {return getch();}
 
-        // THIS IS LOGIC, SHOULD BE IN GAMESTATE!!! FIXME
         int update_screen() {
             //sclear();
             wprint_map();
-            //wprint_ghost_block();
+            wprint_ghost_block();
             wprint_current_block();
             get_tetra_state();
             srefresh();
@@ -90,7 +90,7 @@ class Screen {
                 return '#';
             }
             else {
-                return '?';
+                return '^';
             }
         }
 
@@ -159,8 +159,8 @@ class Screen {
 
         // Too repetitive fix
         void wprint_ghost_block() {
-            int x = game_state.getTetraHandler()->get_gy();
-            int y = game_state.getTetraHandler()->get_y();
+            int x = game_state.getTetraHandler()->get_x();
+            int y = game_state.getTetraHandler()->get_gy();
             Tetragon *tetra = game_state.getTetraHandler()->get_tetra();
 
             BlockArr *block = tetra->get_block();

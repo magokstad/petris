@@ -90,6 +90,17 @@ class Map {
             }
             clear_rows_if_filled();
         }
+        
+        bool check_game_over() {
+            int *array = mapArr.getArray();
+            int width = mapArr.getWidth();
+            for (int i = 0; i < width; i++) {
+                if (array[i] >= 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
     private:
 

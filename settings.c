@@ -4,6 +4,7 @@
 
 // Own color IDs
 #define COLOR_ORANGE 20
+#define COLOR_DGRAY 21
 
 // Values for each block including null and whitespace
 #define BGHOST -2

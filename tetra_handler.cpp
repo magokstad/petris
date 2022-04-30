@@ -12,8 +12,6 @@ class TetraHandler {
         int x;
         int y, gy;
 
-        Tetragon last_rotatable_state;
-
     public:
         TetraHandler(Map map) {
             this->tetra = Tetragon('.'); // default tetra
@@ -32,7 +30,7 @@ class TetraHandler {
         void update_ghost_coords() {
             int save = this->y;
             while (can_move_down()) {
-                move_down();
+                this->y += 1;
             }
             int bottom = this->y;
             this->y = save;
@@ -44,17 +42,13 @@ class TetraHandler {
             return this->gy;
         }
 
-        void update_rotatable_state() {
-            if (can_rotate_right()) {
-                this->last_rotatable_state = this->tetra;
-            }
-        }
-
         void change_tetra(char c) {
             tetra = Tetragon(c);
             x = START_X;
             y = START_Y;
         }
+
+
 
         void print_local_status() {
             std::cout << "x: " << x << ", y: " << y << std::endl;

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sys/time.h>
+#include <unistd.h>
 
 #include "tetra_handler.cpp"
 #include "ncurses_input.cpp"
@@ -13,11 +15,19 @@ class GameState {
         long msec;
         long msec_counter;
 
+        Tetragon held_tetra;
+        bool can_hold;
+        bool game_over;
+
     public:
         GameState() {
             map = Map();
             hand = TetraHandler(map);
             input = NcursesInputHandler();
+
+            held_tetra = Tetragon();
+            can_hold = true;
+            game_over = false;
 
             // get time at start
             timeval start_time;
@@ -48,6 +58,8 @@ class GameState {
         }
 
         int drop_loop() {
+            if (handle_input() == 1) {return 1;};
+            if (game_over) {sleep(1); return 0;}
             if (get_time_dif() > 500) {
                 if (hand.can_move_down()) {
                     hand.move_down();
@@ -57,9 +69,11 @@ class GameState {
                 }
                 msec = msec_counter;
                 hand.update_ghost_coords();
+                game_over = map.check_game_over();
             }
             // This handles input and returns 1 if game is over
-            if (handle_input() == 1) {return 1;};
+
+
             return 0;
         }
 
@@ -92,10 +106,24 @@ class GameState {
             }
         }
 
+        void hold_tetra() {
+            if (!can_hold) {return;}
+            Tetragon tmp = held_tetra;
+            held_tetra = *hand.get_tetra();
+            can_hold = false;
+            if (tmp.get_type() == '\0') {
+                add_block(get_random_tetra_char());
+            }
+            else {
+                add_block(tmp.get_type());
+            }
+        }
+
         void place_tetra() {
             while (hand.can_move_down()) {
                 hand.move_down();
             }
+            can_hold = true;
             map.place_tetra(hand.get_tetra(), hand.get_x(), hand.get_y());
             char ny_tetra = get_random_tetra_char();
             hand.change_tetra(ny_tetra); //FIXME
@@ -120,6 +148,9 @@ class GameState {
                     break;
                 case 'w':
                     hand.rotate_right();
+                    break;
+                case 'e':
+                    hold_tetra();
                     break;
                 case 'o':
                     return 1;
