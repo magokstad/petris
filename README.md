@@ -1,4 +1,4 @@
-Petris - totally not a tetris clone.
+### Petris - totally not a tetris clone.
 
 Compile main.cpp using -lncurses as a flag. Make sure ncurses is installed before trying. Ncurses can be downloaded using your favorite package manager
 Example:
