@@ -7,7 +7,7 @@ Example:
 g++ main.cpp -lncurses -O3 -o main
 ```
 
-*TODO:* 
+**TODO:** 
 - [x] hold (press e!)
 - [ ] next 3 tetri
 - [x] death (kinda)
